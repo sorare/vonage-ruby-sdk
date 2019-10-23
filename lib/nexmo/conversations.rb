@@ -7,7 +7,6 @@ module Nexmo
     self.request_body = JSON
 
     self.request_headers['Accept'] = 'application/json'
-    self.request_headers['Content-Type'] = 'application/json'
 
     # Create a conversation.
     #
@@ -25,7 +24,7 @@ module Nexmo
     #   A link to an image for conversations' and users' avatars.
     #
     # @option params [Hash] :properties
-    #   - **:custom_data** [Hash] Any custom data that you'd like to attach to the conversation.
+    #   - **:custom_data** (Hash) Any custom data that you'd like to attach to the conversation.
     #
     # @return [Response]
     #
@@ -46,7 +45,7 @@ module Nexmo
     # @option params ['asc', 'desc'] :order
     #   Return the records in ascending or descending order.
     #
-    # @option params [None] :cursor
+    # @option params [String] :cursor
     #   The cursor to start returning results from.
     #
     # @param [Hash, nil] params

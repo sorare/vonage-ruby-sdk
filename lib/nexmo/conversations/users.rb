@@ -72,7 +72,7 @@ module Nexmo
     #   A link to an image for conversations' and users' avatars.
     #
     # @option params [Hash] :properties
-    #   - **:custom_data** [Hash] Any custom data that you'd like to attach to the conversation.
+    #   - **:custom_data** (Hash) Any custom data that you'd like to attach to the conversation.
     #
     # @param [String] id
     # @param [Hash] params

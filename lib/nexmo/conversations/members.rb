@@ -26,6 +26,7 @@ module Nexmo
     #
     # @option params ['join', 'invite'] :action
     #   The action to take when adding a user to the conversation. 
+    #
     # @param [String] conversation_id
     # @param [Hash] params
     #
