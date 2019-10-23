@@ -30,12 +30,14 @@ class NexmoConversationsTest < Nexmo::Test
 
   def test_create_method_with_error
     params = {
-      display_name: 123
+      not_actual_key: 'not_actual_value'
     }
     
-    #stub_request(:post, conversations_uri).with(request(body: params)).to_return(response)
+    resp = stub_request(:post, conversations_uri).with(request(body: params)).to_return(error_response)
     
-    # expect conversations.create(params) to return an error, but currently returning a 200
+    assert_raises Nexmo::ClientError do 
+      conversations.create(params)
+    end
   end
 
   def test_list_method
@@ -63,10 +65,30 @@ class NexmoConversationsTest < Nexmo::Test
     assert_kind_of Nexmo::Response, conversations.update(conversation_id, params)
   end
 
+  def test_update_method_with_error
+    params = {
+      not_actual_key: 'not_actual_value'
+    }
+    
+    resp = stub_request(:put, conversation_uri).with(request(headers: {'Accept' => 'application/json'}, body: params)).to_return(error_response)
+    
+    assert_raises Nexmo::ClientError do 
+      conversations.update(conversation_id, params)
+    end
+  end
+
   def test_delete_method
     stub_request(:delete, conversation_uri).with(request).to_return(response)
 
     assert_kind_of Nexmo::Response, conversations.delete(conversation_id)
+  end
+
+  def test_delete_method_with_error
+    stub_request(:delete, conversation_uri).with(request).to_return(error_response)
+
+    assert_raises Nexmo::ClientError do 
+      conversations.delete(conversation_id)
+    end
   end
 
   def test_record_method
