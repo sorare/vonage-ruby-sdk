@@ -6,11 +6,11 @@ class NexmoConversationsTest < Nexmo::Test
   end
 
   def conversations_uri
-    'https://api.nexmo.com/beta/conversations'
+    'https://api.nexmo.com/v0.1/conversations'
   end
 
   def conversation_uri
-    'https://api.nexmo.com/beta/conversations/' + conversation_id
+    'https://api.nexmo.com/v0.1/conversations/' + conversation_id
   end
 
   def conversation_record_uri
@@ -28,8 +28,18 @@ class NexmoConversationsTest < Nexmo::Test
     assert_kind_of Nexmo::Response, conversations.create(params)
   end
 
+  def test_create_method_with_error
+    params = {
+      display_name: 123
+    }
+    
+    #stub_request(:post, conversations_uri).with(request(body: params)).to_return(response)
+    
+    # expect conversations.create(params) to return an error, but currently returning a 200
+  end
+
   def test_list_method
-    params = {status: 'completed'}
+    params = {order: 'asc'}
 
     stub_request(:get, conversations_uri).with(request(query: params)).to_return(response)
 
@@ -48,7 +58,7 @@ class NexmoConversationsTest < Nexmo::Test
       display_name: 'display_test_name'
     }
 
-    stub_request(:put, conversation_uri).with(request(body: params)).to_return(response)
+    stub_request(:put, conversation_uri).with(request(headers: {'Accept' => 'application/json'}, body: params)).to_return(response)
 
     assert_kind_of Nexmo::Response, conversations.update(conversation_id, params)
   end
@@ -72,10 +82,6 @@ class NexmoConversationsTest < Nexmo::Test
 
   def test_events_method
     assert_kind_of Nexmo::Conversations::Events, conversations.events
-  end
-
-  def test_legs_method
-    assert_kind_of Nexmo::Conversations::Legs, conversations.legs
   end
 
   def test_members_method

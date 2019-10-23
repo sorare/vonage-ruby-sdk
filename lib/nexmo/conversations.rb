@@ -6,6 +6,9 @@ module Nexmo
 
     self.request_body = JSON
 
+    self.request_headers['Accept'] = 'application/json'
+    self.request_headers['Content-Type'] = 'application/json'
+
     # Create a conversation.
     #
     # @example
@@ -21,19 +24,15 @@ module Nexmo
     # @option params [String] :image_url
     #   A link to an image for conversations' and users' avatars.
     #
-    # @option params [Hash] :numbers
-    #   - **:sms** (String) phone number used for sms channel
-    #   - **:pstn** (String) phone number used for pstn channel
-    #
     # @option params [Hash] :properties
-    #   - **:ttl** (Integer) After how many seconds an empty conversation is deleted
+    #   - **:custom_data** [Hash] Any custom data that you'd like to attach to the conversation.
     #
     # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#createConversation
     #
     def create(params)
-      request('/beta/conversations', params: params, type: Post)
+      request('/v0.1/conversations', params: params, type: Post)
     end
 
     # List all conversations associated with your application.
@@ -41,20 +40,14 @@ module Nexmo
     # @example
     #   response = client.conversations.list
     #
-    # @option params [String] :date_start
-    #   Return the records that occurred after this point in time.
-    #
-    # @option params [String] :date_end
-    #   Return the records that occurred before this point in time.
-    #
     # @option params [Integer] :page_size
     #   Return this amount of records in the response.
     #
-    # @option params [Integer] :record_index
-    #   Return calls from this index in the response.
-    #
     # @option params ['asc', 'desc'] :order
     #   Return the records in ascending or descending order.
+    #
+    # @option params [None] :cursor
+    #   The cursor to start returning results from.
     #
     # @param [Hash, nil] params
     #
@@ -63,7 +56,7 @@ module Nexmo
     # @see https://developer.nexmo.com/api/conversation#replaceConversation
     #
     def list(params = nil)
-      request('/beta/conversations', params: params)
+      request('/v0.1/conversations', params: params)
     end
 
     # Retrieve a conversation.
@@ -78,7 +71,7 @@ module Nexmo
     # @see https://developer.nexmo.com/api/conversation#retrieveConversation
     #
     def get(id)
-      request('/beta/conversations/' + id)
+      request('/v0.1/conversations/' + id)
     end
   
     # Update a conversation.
@@ -95,12 +88,8 @@ module Nexmo
     # @option params [String] :image_url
     #   A link to an image for conversations' and users' avatars.
     #
-    # @option params [Hash] :numbers
-    #   - **:sms** (String) phone number used for sms channel
-    #   - **:pstn** (String) phone number used for pstn channel
-    #
     # @option params [Hash] :properties
-    #   - **:ttl** (Integer) After how many seconds an empty conversation is deleted
+    #   - **:custom_data** [Hash] Any custom data that you'd like to attach to the conversation.
     #
     # @param [String] id
     # @param [Hash] params
@@ -110,7 +99,7 @@ module Nexmo
     # @see https://developer.nexmo.com/api/conversation#replaceConversation
     #
     def update(id, params)
-      request('/beta/conversations/' + id, params: params, type: Put)
+      request('/v0.1/conversations/' + id, params: params, type: Put)
     end
 
     # Delete a conversation.
@@ -125,7 +114,7 @@ module Nexmo
     # @see https://developer.nexmo.com/api/conversation#deleteConversation
     #
     def delete(id)
-      request('/beta/conversations/' + id, type: Delete)
+      request('/v0.1/conversations/' + id, type: Delete)
     end
 
     # Record a conversation.
@@ -163,12 +152,6 @@ module Nexmo
     #
     def events
       @events ||= Events.new(@config)
-    end
-
-    # @return [Legs]
-    #
-    def legs
-      @legs ||= Legs.new(@config)
     end
 
     # @return [Members]

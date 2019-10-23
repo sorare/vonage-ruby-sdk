@@ -10,11 +10,11 @@ class Nexmo::Conversations::EventsTest < Nexmo::Test
   end
 
   def events_uri
-    "https://api.nexmo.com/beta/conversations/#{conversation_id}/events"
+    "https://api.nexmo.com/v0.1/conversations/#{conversation_id}/events"
   end
 
   def event_uri
-    "https://api.nexmo.com/beta/conversations/#{conversation_id}/events/#{event_id}"
+    "https://api.nexmo.com/v0.1/conversations/#{conversation_id}/events/#{event_id}"
   end
 
   def test_create_method

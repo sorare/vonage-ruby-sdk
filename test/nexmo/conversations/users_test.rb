@@ -6,11 +6,11 @@ class Nexmo::Conversations::UsersTest < Nexmo::Test
   end
 
   def users_uri
-    'https://api.nexmo.com/beta/users'
+    'https://api.nexmo.com/v0.1/users'
   end
 
   def user_uri
-    'https://api.nexmo.com/beta/users/' + user_id
+    'https://api.nexmo.com/v0.1/users/' + user_id
   end
 
   def params

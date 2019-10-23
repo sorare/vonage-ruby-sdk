@@ -1,3 +1,7 @@
+# 6.1.0
+
+* Nexmo::Conversations now points to the v0.1 of the Conversations API.
+
 # 6.0.1
 
 * Fixed Nexmo::Conversations#record method to use the correct path

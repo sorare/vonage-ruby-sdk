@@ -6,31 +6,36 @@ class Nexmo::Conversations::MembersTest < Nexmo::Test
   end
 
   def members_uri
-    "https://api.nexmo.com/beta/conversations/#{conversation_id}/members"
+    "https://api.nexmo.com/v0.1/conversations/#{conversation_id}/members"
   end
 
   def member_uri
-    "https://api.nexmo.com/beta/conversations/#{conversation_id}/members/#{member_id}"
+    "https://api.nexmo.com/v0.1/conversations/#{conversation_id}/members/#{member_id}"
   end
 
-  def params
+  def create_params
     {
       action: 'invite',
       user_id: user_id,
       channel: {
         type: 'phone',
-        to: {
-          type: 'phone',
-          number: msisdn
-        }
+      }
+    }
+  end
+
+  def update_params
+    {
+      state: 'join',
+      channel: {
+        type: 'phone',
       }
     }
   end
 
   def test_create_method
-    stub_request(:post, members_uri).with(request(body: params)).to_return(response)
+    stub_request(:post, members_uri).with(request(body: create_params)).to_return(response)
 
-    assert_kind_of Nexmo::Response, members.create(conversation_id, params)
+    assert_kind_of Nexmo::Response, members.create(conversation_id, create_params)
   end
 
   def test_list_method
@@ -46,9 +51,9 @@ class Nexmo::Conversations::MembersTest < Nexmo::Test
   end
 
   def test_update_method
-    stub_request(:put, member_uri).with(request(body: params)).to_return(response)
+    stub_request(:put, member_uri).with(request(body: update_params)).to_return(response)
 
-    assert_kind_of Nexmo::Response, members.update(conversation_id, member_id, params)
+    assert_kind_of Nexmo::Response, members.update(conversation_id, member_id, update_params)
   end
 
   def test_delete_method
