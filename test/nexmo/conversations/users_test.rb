@@ -17,10 +17,22 @@ class Nexmo::Conversations::UsersTest < Nexmo::Test
     {display_name: 'My User Name'}
   end
 
+  def error_params
+    {}
+  end
+
   def test_create_method
     stub_request(:post, users_uri).with(request(body: params)).to_return(response)
 
     assert_kind_of Nexmo::Response, users.create(params)
+  end
+
+  def test_create_method_with_error
+    stub_request(:post, users_uri).with(request(body: error_params)).to_return(error_response)
+
+    assert_raises Nexmo::ClientError do
+      users.create(error_params)
+    end
   end
 
   def test_list_method
@@ -39,6 +51,14 @@ class Nexmo::Conversations::UsersTest < Nexmo::Test
     stub_request(:put, user_uri).with(request(body: params)).to_return(response)
 
     assert_kind_of Nexmo::Response, users.update(user_id, params)
+  end
+
+  def test_update_method_with_error
+    stub_request(:put, user_uri).with(request(body: error_params)).to_return(error_response)
+
+    assert_raises Nexmo::ClientError do
+      users.update(user_id, error_params)
+    end
   end
 
   def test_delete_method

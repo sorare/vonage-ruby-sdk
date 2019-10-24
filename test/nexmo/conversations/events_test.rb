@@ -25,6 +25,16 @@ class Nexmo::Conversations::EventsTest < Nexmo::Test
     assert_kind_of Nexmo::Response, events.create(conversation_id, params)
   end
 
+  def test_create_method_with_error
+    params = {type: 'invalid', from: 'invalid-member'}
+
+    stub_request(:post, events_uri).with(request(body: params)).to_return(error_response)
+
+    assert_raises Nexmo::ClientError do
+      events.create(conversation_id, params)
+    end
+  end
+
   def test_list_method
     stub_request(:get, events_uri).with(request).to_return(response)
 
