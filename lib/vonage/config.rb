@@ -129,7 +129,7 @@ module Vonage
 
     # @return [Vonage::Logger]
     #
-    sig { params(logger: T.nilable(T.any(::Logger, Vonage::Logger))).returns(T.nilable(Vonage::Logger)) }
+    sig { params(logger: T.nilable(T.untyped)).returns(T.nilable(Vonage::Logger)) }
     def logger=(logger)
       @logger = T.let(Logger.new(logger), T.nilable(Vonage::Logger))
     end
